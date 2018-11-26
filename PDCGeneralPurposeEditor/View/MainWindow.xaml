@@ -30,7 +30,7 @@
             </Menu>
             <StatusBar DockPanel.Dock="Bottom" VerticalAlignment="Bottom">
                 <Label Content="hello" Foreground="#DDFFFFFF"/>
-                <ProgressBar Value="50" Maximum="70" Height="15" Width="154" />
+                <ProgressBar Value="50" Maximum="70" Height="15" Width="154" Style="{StaticResource MyProgressBar}"/>
             </StatusBar>
             <Grid>
                 <ComboBox HorizontalAlignment="Left" Margin="10,3,0,0" Width="176" Height="30" VerticalAlignment="Top" />
@@ -44,7 +44,7 @@
                     materialDesign:ButtonProgressAssist.IsIndicatorVisible="false"
                     materialDesign:ButtonProgressAssist.Value="-1"
                     materialDesign:ButtonProgressAssist.IsIndeterminate="true"
-                    Content="{materialDesign:PackIcon Plus}" Margin="0,12,11,0" Height="25" Width="25" VerticalAlignment="Top" HorizontalAlignment="Right" />
+                    Content="{materialDesign:PackIcon Plus}" Margin="0,3,10,0" Height="30" Width="30" VerticalAlignment="Top" HorizontalAlignment="Right" />
                 <DataGrid Margin="0,45,0,0.5">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="翻訳者ID"/>
