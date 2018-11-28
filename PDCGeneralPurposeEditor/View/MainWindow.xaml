@@ -13,6 +13,8 @@
         FontFamily="{DynamicResource MaterialDesignFont}"        
         xmlns:local="clr-namespace:PDCGeneralPurposeEditor"
         xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+        xmlns:Prism="http://prismlibrary.com/"
+        Prism:ViewModelLocator.AutoWireViewModel="True"
         mc:Ignorable="d"
         Title="エディタメインメニュー" Height="414.25" Width="610.75" MinHeight="250" MinWidth="250"
         >
@@ -34,7 +36,7 @@
             </StatusBar>
             <Grid>
                 <ComboBox HorizontalAlignment="Left" Margin="10,3,0,0" Width="176" Height="30" VerticalAlignment="Top" />
-                <StackPanel Orientation="Horizontal" Margin="219,10,0,0" HorizontalAlignment="Left" Width="285" Height="30" VerticalAlignment="Top">
+                <StackPanel Orientation="Horizontal" Margin="219,10,0,0" HorizontalAlignment="Left" Width="285" Height="23" VerticalAlignment="Top">
                     <RadioButton Content="未納品のみ"/>
                     <RadioButton Content="納品済のみ" Margin="15,0,5,0"/>
                     <RadioButton Content="すべて表示" Margin="15,0,5,0"/>
@@ -45,7 +47,7 @@
                     materialDesign:ButtonProgressAssist.Value="-1"
                     materialDesign:ButtonProgressAssist.IsIndeterminate="true"
                     Content="{materialDesign:PackIcon Plus}" Margin="0,3,10,0" Height="30" Width="30" VerticalAlignment="Top" HorizontalAlignment="Right" />
-                <DataGrid Margin="0,45,0,0.5">
+                <DataGrid Name="dataGrid_ContextMenu" Margin="0,45,0,0.5">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="翻訳者ID"/>
                         <DataGridTextColumn Header="文献ID"/>

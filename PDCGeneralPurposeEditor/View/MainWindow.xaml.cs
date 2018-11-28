@@ -13,6 +13,11 @@ namespace PDCGeneralPurposeEditor.View
         public MainWindow()
         {
             InitializeComponent();
+
+
+            //テスト用、ウィンドウ表示
+            var editorWindow=new EditorWindow();
+            editorWindow.Show();
         }
     }
 }

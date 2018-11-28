@@ -1,0 +1,262 @@
+﻿<mah:MetroWindow x:Class="PDCGeneralPurposeEditor.View.EditorWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PDCGeneralPurposeEditor.View"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        TextElement.FontWeight="Regular"
+        TextElement.FontSize="13"
+        TextOptions.TextFormattingMode="Ideal"
+        TextOptions.TextRenderingMode="Auto"
+        Background="{DynamicResource MaterialDesignPaper}"
+        FontFamily="{DynamicResource MaterialDesignFont}"        
+        xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+        xmlns:uc="clr-namespace:PDCEditorClasslibrary_V2.MyWebBrowser;assembly=PDCEditorClasslibrary_V2"
+        mc:Ignorable="d"
+        Title="エディタ" Height="806.977" Width="964.614" MinHeight="250" MinWidth="250">
+
+
+    <DockPanel LastChildFill="True">
+        <StatusBar DockPanel.Dock="Bottom" VerticalAlignment="Bottom" Height="26">
+            <StackPanel Orientation="Horizontal" Height="15">
+                <TextBlock x:Name="textBlock_LastSaveTime" Text="最終保存時刻:" Padding="10,0,0,0"/>
+                <TextBlock x:Name="textBlock_label" Text="作業中の文献の進捗：" Padding="30,0,0,0"/>
+                <ProgressBar x:Name="progressBar" Height="13" Width="200" Style="{StaticResource MyProgressBar}"/>
+                <TextBlock x:Name="textBlock_progress" Text="進捗：0 %" Padding="10,0,0,0"/>
+                <TextBlock x:Name="textBlock_currentRow" Text="選択中のセンテンス：未" Padding="30,0,0,0"/>
+                <TextBlock x:Name="textBlock_ProcessingInfo" Text="処理情報が表示されます" Padding="30,0,0,0"/>
+                <!--<TextBlock x:Name="textBlock_ProcessingInfo2" Padding="10,0,0,0"/>-->
+                <TextBlock x:Name="textBlock_TodayConfirmCharCount" Text="今日の確定文字数：0文字" Padding="30,0,0,0" Visibility="Hidden"/>
+                <!--<TextBlock x:Name="textBlock_ReviewerGrading" Text="評価：" Padding="30,0,0,0"/>-->
+            </StackPanel>
+        </StatusBar>
+        <Menu DockPanel.Dock="Top">
+            <MenuItem x:Name="menuItem_SaveTemporaryData" Header="保存" ToolTip="現在の作業状態を保存します。" >
+            </MenuItem>
+            <MenuItem x:Name="menuItem_OutputNouhinData_Zaitaku" Header="納品"  ToolTip="納品データを出力します">
+            </MenuItem>
+
+            <!--<MenuItem x:Name="menuItem_ReviewerComment" Header="評価"  ToolTip="作業中の文献に対する評価を行います。" >
+            </MenuItem>-->
+
+            <MenuItem x:Name="menuItem_View" Header="表示">
+                <MenuItem x:Name="menuItem_Show_FindAndReplaceWindow" Header="検索・置換ウィンドウ(Ctrl+H)" ToolTip="検索・置換ウィンドウを表示します。" >
+                </MenuItem>
+                <MenuItem x:Name="menuItem_Show_WordWindow" Header="用語ウィンドウ(Ctrl+W)" ToolTip="用語ウィンドウを表示します。" >
+                </MenuItem>
+                <MenuItem x:Name="menuItem_Show_SpecialCharacterInputWindow" Header="特殊文字入力パレット(Ctrl+8)" >
+                </MenuItem>
+
+                <!--<MenuItem Name="menuitem_Show_GooglePatent" Header="この文献をGoogle特許で表示"/>-->
+                <!--<MenuItem x:Name="menuItem_StartUnicodeViewer" Header="Unicode文字ビューワー(Ctrl+9)" >
+                </MenuItem>-->
+                <!--<MenuItem x:Name="menuItem_ShowComment" Header="貼り付け用コメント表示" ToolTip="コメント貼り付け用のウィンドウを開きます。"  >
+                </MenuItem>-->
+                <ComboBox x:Name="comboBox_CSS"  Width="150"/>
+                <ComboBox x:Name="comboBox_LineHeight" Width="150"  ToolTip="行間を変更します。"/>
+            </MenuItem>
+            <MenuItem  Header="編集">
+                <!--<MenuItem x:Name="menuItem_Confirm" Header="センテンスの確定・解除(Ctrl+D)" ToolTip="センテンスを確定・解除を切り替えます。"  >
+                </MenuItem>-->
+                <!--<MenuItem x:Name="menuItem_Check" Header="センテンスのチェック(Ctrl+G)" ToolTip="センテンスに各種チェックを行います。"  >
+                </MenuItem>-->
+                <!--<MenuItem x:Name="menuItem_Reset" Header="センテンスのリセット(Ctrl+R)" ToolTip="センテンスの内容を最初の状態に戻します。"  >
+                </MenuItem>-->
+                <!--<MenuItem x:Name="menuItem_ShowDiff" Header="差分の表示(Ctrl+T)" ToolTip="変更履歴を表示します。"  >
+                </MenuItem>-->
+                <MenuItem Name="menuItem_SuperScript" Header="上付き" />
+                <MenuItem Name="menuItem_SubScript" Header="下付き" />
+                <MenuItem Name="menuItem_ReqularScript" Header="上下付き解除" />
+            </MenuItem>
+            <MenuItem Name="menuItem_Check" Header="チェック">
+                <MenuItem Name="menuItem_CheckAllSentence" Header="全センテンスチェック" />
+                <MenuItem Name="menuItem_CheckOrthographicalVariant" Header="表記ゆれチェック" />
+            </MenuItem>
+            <MenuItem Name="menuItem_DictionarySetting" Header="辞書設定" Visibility="Visible"  >
+                <!--<MenuItem x:Name="menuItem_ReadUserDictionary" Header="用語集の読込" />-->
+                <!--<MenuItem x:Name="menuItem_ReCreateDictionaryList" Header="辞書情報の更新"  />-->
+                <!--<MenuItem x:Name="menuItem_LoadTemporaryDictionary" Header="一時登録辞書の回復" />-->
+                <!--<MenuItem x:Name="menuItem_SaveTemporaryDictionary" Header="一時登録辞書の保存"  Visibility="Hidden"/>-->
+            </MenuItem>
+            <MenuItem x:Name="menuItem_Print" Header="印刷" >
+            </MenuItem>
+            <!--<MenuItem x:Name="menuItem_Paste" Header="貼付"  Visibility="Collapsed">
+            </MenuItem>-->
+            <MenuItem x:Name="menuItem_Help" Header="ヘルプ">
+                <MenuItem x:Name="menuItem_ShortcutList" Header="ショートカット一覧" ToolTip="各種ショートカットの一覧を表示します。"  >
+                </MenuItem>
+            </MenuItem>
+        </Menu>
+        <Grid>
+            <TabControl>
+                <TabItem x:Name="tabItem_Editor" Header="翻訳">
+                    <Grid>
+                        <!--<Button x:Name="button_ShowDiff" Content="差分" Margin="1254,0,0,0" HorizontalAlignment="Left"  Height="30" Width="30" VerticalAlignment="Top" />-->
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="65" />
+                                <RowDefinition Height="5"/>
+                                <RowDefinition Height="509*"/>
+                            </Grid.RowDefinitions>
+
+                            <Grid Name="grid_ToolPane" Grid.Row="0" Margin="0,0,0.5,0">
+
+                                <StackPanel Orientation="Horizontal">
+                                    <StackPanel  x:Name="stackPanel_userWordHighlight" Orientation="Vertical"  VerticalAlignment="Top" HorizontalAlignment="Left" Margin="0,0,10,0">
+                                        <StackPanel Orientation="Horizontal" Width="393" >
+                                            <Button x:Name="button_color_0" Content="" Width="25" Padding="1" Margin="5,0" Height="25" Background="Coral"  />
+                                            <Button x:Name="button_color_1" Content="" Width="25" Padding="1" Margin="5,2.5" Height="25" Background="Crimson"  />
+                                            <Button x:Name="button_color_2" Content="" Width="25" Padding="1" Margin="5,2.5" Height="25" Background="HotPink"  />
+                                            <Button x:Name="button_color_3" Content="" Width="25" Padding="1" Margin="5,2.5" Height="25" Background="LightPink"  />
+                                            <Button x:Name="button_color_4" Content="" Width="25" Padding="1" Margin="5,2.5" Height="25" Background="MediumPurple"  />
+                                            <Button x:Name="button_color_5" Content="" Width="25" Padding="1" Margin="5,2.5" Height="25" Background="Tan"  />
+                                            <Button x:Name="button_color_6" Content="" Width="25" Padding="1" Margin="5,2.5" Height="25" Background="Khaki"  />
+                                            <Button x:Name="button_color_7" Content="" Width="25" Padding="1" Margin="5,2.5" Height="25" Background="Gold"  />
+                                            <Button x:Name="button_highlightAllRow_execute" Content="全センテンス" Padding="1" Margin="5,2.5" Height="26"  ToolTip="全センテンスの単語ハイライトを行います。" Width="100"/>
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal" >
+                                            <Button x:Name="button_color_8" Content="" Width="25" Padding="1" Margin="5,2.5" Height="25" Background="Sienna"  />
+                                            <Button x:Name="button_color_9" Content="" Width="25" Padding="1" Margin="5,2.5" Height="25" Background="MediumSeaGreen"  />
+                                            <Button x:Name="button_color_10" Content="" Width="25" Padding="1" Margin="5,2.5" Height="25" Background="PaleGreen"  />
+                                            <Button x:Name="button_color_11" Content="" Width="25" Padding="1" Margin="5,2.5" Height="25" Background="Olive"  />
+                                            <Button x:Name="button_color_12" Content="" Width="25" Padding="1" Margin="5,2.5" Height="25" Background="SteelBlue"  />
+                                            <Button x:Name="button_color_13" Content="" Width="25" Padding="1" Margin="5,2.5" Height="25" Background="Cyan"  />
+                                            <Button x:Name="button_color_14" Content="" Width="25" Padding="1" Margin="5,2.5" Height="25" Background="DarkGray"  />
+                                            <Button x:Name="button_deleteHighlightInfo" Content="C" Padding="1" Margin="5,2.5" Height="25"  Width="25" 
+                                                ToolTip="選択中の文字列のハイライトを解除します" 
+                                                 
+                                                 Background="#FFFCFCFC"/>
+                                            <Button x:Name="button_highlightCurrentRow_execute" Content="現在のセンテンス" Padding="1" Margin="5,2.5" Height="26"  ToolTip="現在のセンテンスにハイライトを付けます" Width="100"/>
+                                        </StackPanel>
+                                    </StackPanel>
+
+                                    <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}"  Margin="5"/>
+
+                                    <StackPanel Orientation="Vertical" Margin="10,0,10,0">
+                                        <StackPanel Orientation="Horizontal">
+                                            <Button x:Name="button_superscript" FontSize="15"  Height="25" Width="25" Margin="5,2.5" Padding="0" VerticalAlignment="Top" ToolTip="選択範囲を上付にします" HorizontalAlignment="Left" >
+                                                <Button.Content>
+                                                    <TextBlock>
+                                    X<Run FontSize="6pt" BaselineAlignment="Superscript">2</Run>
+                                                    </TextBlock>
+                                                </Button.Content>
+                                            </Button>
+                                            <Button x:Name="button_subscript" FontSize="15"  Height="25" Width="25" Margin="5,2.5" Padding="0" VerticalAlignment="Top" HorizontalAlignment="Left" ToolTip="選択範囲を下付にします">
+                                                <Button.Content>
+                                                    <TextBlock>
+                                    X<Run FontSize="6pt" BaselineAlignment="Subscript">2</Run>
+                                                    </TextBlock>
+                                                </Button.Content>
+                                            </Button>
+                                            <Button x:Name="button_regularscript" FontSize="15"  Height="25" Width="25" Margin="5,2.5" Padding="0" VerticalAlignment="Top" HorizontalAlignment="Left" ToolTip="選択範囲の上付・下付を解除します">
+                                                <Button.Content>
+                                                    <TextBlock>
+                                    X2
+                                                    </TextBlock>
+                                                </Button.Content>
+                                            </Button>
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Button x:Name="button_Show_SpecialCharacterInputWindow" Content="Ω" FontSize="15"  Height="25" Width="25" Margin="5,2.5" Padding="0" VerticalAlignment="Top" HorizontalAlignment="Left" ToolTip="特殊文字入力パレットを表示します。"/>
+                                            <Button x:Name="button_Show_GooglePatent" Content="G" FontSize="15" Height="25" Width="25" Margin="5,2.5" Padding="0" VerticalAlignment="Top" HorizontalAlignment="Left" ToolTip="文献のGoogle特許のページを開きます。" />
+                                        </StackPanel>
+                                    </StackPanel>
+
+                                    <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}"  Margin="5"/>
+
+                                    <StackPanel Orientation="Vertical" Margin="5,0,10,0">
+                                        <StackPanel Orientation="Horizontal">
+                                            <Button x:Name="button_AllSentenceAndFullTextCheck_execute" Margin="5,2.5" Content="全センテンスチェック" HorizontalAlignment="Left"  Height="26" Padding="0" VerticalAlignment="Top" ToolTip="全てのセンテンスに対して各種チェックとハイライトを行います" Width="122" />
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Height="30" VerticalAlignment="Top">
+                                            <Label x:Name="label1" Content="移動：" HorizontalAlignment="Left" VerticalAlignment="Center" ToolTip="入力した行番号へ移動します" VerticalContentAlignment="Center"/>
+                                            <TextBox x:Name="textBox_jumpToSentence" Height="25" Text="" Width="50" HorizontalAlignment="Left" VerticalAlignment="Center"  ToolTip="入力した行番号へ移動します"   Margin="0,4,0,0" VerticalContentAlignment="Center"/>
+                                            <Label x:Name="label" Content="" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                                        </StackPanel>
+                                    </StackPanel>
+
+                                    <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}"  Margin="5"/>
+
+
+                                    <StackPanel Orientation="Horizontal">
+
+                                        <StackPanel Orientation="Vertical">
+                                            <TextBlock Text="【改行記号】" Margin="5,0,0,0" Width="70"/>
+                                            <StackPanel Orientation="Horizontal" Margin="5,5,0,2">
+                                                <CheckBox Name="checkBox_NewLine_SemiColon" FontSize="15" Content="；" ToolTip="セミコロン" Width="40"/>
+                                                <CheckBox Name="checkBox_NewLine_Colon" FontSize="15" ToolTip="コロン" Content="："/>
+                                            </StackPanel>
+                                            <StackPanel Orientation="Horizontal" Margin="5,2,0,2">
+                                                <!--<CheckBox Name="checkBox_NewLine_Period" FontSize="15" ToolTip="句点" Content="。" Width="40"/>-->
+                                                <CheckBox Name="checkBox_NewLine_Comma" FontSize="15" ToolTip="カンマ" Content="，" Width="40"/>
+                                                <CheckBox x:Name="checkBox_NewLine_JapaneseComma" ToolTip="読点" Content="、"/>
+                                            </StackPanel>
+
+                                        </StackPanel>
+                                        <StackPanel Orientation="Vertical">
+                                            <Button Name="button_AddNewLine_AllSentence" Content="改行" Margin="5,2.5" Height="26" Width="70" Padding="0"/>
+                                            <Button Name="button_DeleteNewLine_AllSentence" Content="改行削除" Margin="5,2.5" Height="26" Width="70" Padding="0"/>
+                                        </StackPanel>
+                                    </StackPanel>
+                                    <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}"  Margin="5"/>
+
+                                    <TextBlock Name="textBlock_SentenceNotification" TextWrapping="Wrap" Text="" Foreground="Red"/>
+
+
+                                </StackPanel>
+                            </Grid>
+
+                            <Separator Grid.Row="1"/>
+
+                            <uc:MyWebBrowser_Editor_Zaitaku Name="myWebBrowser_Editor" Grid.Row="2" Margin="0,0,0.5,0" Grid.RowSpan="2" />
+
+                        </Grid>
+
+
+                        <!--<Button x:Name="button_ChangeDiff" Content="再⇔校" Margin="1296,0,0,0" HorizontalAlignment="Left"  Height="30" VerticalAlignment="Top"  Width="44"/>-->
+
+                    </Grid>
+                </TabItem>
+
+                <TabItem Header="表記ゆれチェック結果">
+                    <Grid Margin="0,0,0.5,0.5">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="7*"/>
+                            <ColumnDefinition Width="311*"/>
+                        </Grid.ColumnDefinitions>
+                        <uc:MyWebBrowser_OrthographicalCheck Name="myWebBrowser_OrthographicalCheck" Margin="9,43,9,10" Grid.ColumnSpan="2"/>
+
+                        <Button x:Name="button_fullTextCheck" Content="チェック" Margin="10,6,0,0" VerticalAlignment="Top" HorizontalAlignment="Left"  ToolTip="センテンス単位ではなく文章全体を一つの単位としてチェックをかけます" Grid.ColumnSpan="2"/>
+                    </Grid>
+                </TabItem>
+
+                <TabItem Header="全文チェック結果" >
+                    <Grid Margin="0,0,0.5,0.5">
+                        <uc:MyWebBrowser_FullTextCheck Name="myWebBrowser_FullTextCheck" Margin="9,43,9,10" />
+
+                        <Button x:Name="button_orthographicalCheck" Content="チェック" Margin="10,6,0,0" VerticalAlignment="Top" HorizontalAlignment="Left"  ToolTip="センテンス単位ではなく文章全体を一つの単位としてチェックをかけます"/>
+                    </Grid>
+                </TabItem>
+
+
+
+                <TabItem Header="デバッグ" x:Name="tabItem_debug" Visibility="Hidden">
+                    <Grid>
+                        <TextBox x:Name="textBox_currentSelectedInfo" TextWrapping="Wrap" Text="" Margin="10,10,283,120.5"/>
+                        <TextBox x:Name="textBox_currentModeInfo" TextWrapping="Wrap" Text="" Margin="10,0,283,12.5" Height="78" VerticalAlignment="Bottom"/>
+                        <Button x:Name="button_outputHTML" Content="HTMLで出力" HorizontalAlignment="Right" Margin="0,208,137,0" VerticalAlignment="Top"  Width="75"/>
+                        <Button x:Name="button_ConfirmAll" Content="全確定" Margin="0,233,137,0" VerticalAlignment="Top" HorizontalAlignment="Right" Width="75" />
+                        <Button x:Name="button_reviseAll" Content="全解除" HorizontalAlignment="Right" Margin="0,258,137,0" VerticalAlignment="Top" Width="75" />
+                        <TextBox x:Name="textBox_threshold" Height="23" TextWrapping="Wrap" Width="120" Margin="0,309,92,0" Text="0.7" HorizontalAlignment="Right" VerticalAlignment="Top"/>
+                        <Label x:Name="label2" Content="類似度閾値" HorizontalAlignment="Right" Margin="0,283,142,0" VerticalAlignment="Top"/>
+
+
+                    </Grid>
+                </TabItem>
+
+            </TabControl>
+        </Grid>
+    </DockPanel>
+</mah:MetroWindow>
